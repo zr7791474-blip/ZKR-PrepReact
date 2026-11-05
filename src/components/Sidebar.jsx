@@ -65,7 +65,7 @@ function IconFile(props) {
   );
 }
 
-function IconChevronLeft(props) {
+function ChevronLeft(props) {
   return (
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
       <path d="M15 18l-6-6 6-6" />
@@ -73,7 +73,7 @@ function IconChevronLeft(props) {
   );
 }
 
-function IconChevronRight(props) {
+function ChevronRight(props) {
   return (
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
       <path d="M9 18l6-6-6-6" />
@@ -81,7 +81,7 @@ function IconChevronRight(props) {
   );
 }
 
-const ICONS = { home: IconHome, zap: IconZap, flask: IconFlask, help: IconHelp, code: IconCode, book: IconBook, file: IconFile, chevronLeft: IconChevronLeft, chevronRight: IconChevronRight };
+const ICONS = { home: IconHome, zap: IconZap, flask: IconFlask, help: IconHelp, code: IconCode, book: IconBook, file: IconFile, ChevronLeft: ChevronLeft, ChevronRight: ChevronRight };
 
 const SECTIONS = [
   { id: "accueil", label: "Accueil", to: "/", icon: "home", count: null, type: null },
@@ -142,7 +142,7 @@ export default function Sidebar({ open, onClose, collapsed, onToggleCollapse }) 
             onClick={onToggleCollapse}
             aria-label={collapsed ? "Afficher le menu" : "Réduire le menu"}
           >
-            {collapsed ? <ICONS.chevronRight /> : <ICONS.chevronLeft />}
+            {collapsed ? <ChevronRight /> : <ChevronLeft />}
             {!collapsed && <span className="side-item__label">{collapsed ? "Afficher le menu" : "Réduire le menu"}</span>}
           </button>
         )}
