@@ -48,7 +48,7 @@ Le serveur démarre alors sur <http://localhost:3000>.
 ### Autres commandes :
 
 ```powershell
-npm test                  # 29 tests de vérification (Jest / Testing Library)
+npm test                  # 32 tests de vérification (Jest / Testing Library)
 npm run build             # build de production dans build/
 ```
 
@@ -93,15 +93,20 @@ Le détail fiche par fiche, avec les pages et les fichiers, se trouve dans
 - **Tableau de bord** (`/`) : statistiques, chapitres et 115 fiches avec leur type
   (Exercice, Atelier, Quiz, Exemple, Cours) et leurs pages PDF.
 - **Recherche** : par titre, description, thème, objectif ou page. Exemples :
-  `JSX`, `destructuring`, `useEffect`, `Redux`, `235`.
-- **Filtre par chapitre** : boutons « Tous » ou chapitre 1 à 13.
-- **Fiche** (`/fiche/:id`) : bouton « Retour à l'accueil », rappel du chapitre et des
-  pages, objectifs, démonstration, code du cours, note de correction éventuelle.
+  `JSX`, `destructuring`, `useEffect`, `Redux`, `235`. La touche `/` place le focus dans
+  le champ.
+- **Règle des pages** : 13 segments proportionnels au nombre de pages du PDF (4 à 322).
+  Cliquer un segment filtre la liste sur ce chapitre, un second clic retire le filtre.
+  Sur chaque fiche, la même règle sert de repère de position.
+- **Fiche** (`/fiche/:id`) : lien « Retour à l'accueil », position « Fiche n / 115 »,
+  rappel du chapitre et des pages, objectifs, démonstration, code du cours, note de
+  correction éventuelle.
 - **Espace code / résultat** : sur chaque fiche de démonstration, les onglets
   « Voir le code », « Voir le résultat » et « Côte à côte » (vue par défaut sur
-  ordinateur) affichent le code du PDF et la démonstration exécutable. Les deux panneaux
-  restent montés : changer d'onglet ne réinitialise pas l'état de la démonstration.
-  Sous 900 px de large, les panneaux sont empilés. Une mention « Adaptation pour la
+  ordinateur) affichent le code du PDF et la démonstration exécutable ; les flèches du
+  clavier changent d'onglet. Les deux panneaux restent montés : changer d'onglet ne
+  réinitialise pas l'état de la démonstration. Sous 900 px de large, les panneaux sont
+  empilés, le résultat avant le code. Une mention « Adaptation pour la
   démonstration » signale tout ajout par rapport au code du PDF.
 - **Navigation précédent / suivant** : en bas de chaque fiche, dans l'ordre exact du
   catalogue.
@@ -116,7 +121,7 @@ PrepReact-Exercises/
 ├── public/
 │   └── index.html
 ├── src/
-│   ├── components/       # Dashboard, ItemPage, PageHeader, LessonView, CodeBlock, DemoWorkspace, NotFound
+│   ├── components/       # Dashboard, ItemPage, PageHeader, PageRuler, LessonView, CodeBlock, DemoWorkspace, NotFound
 │   ├── data/
 │   │   ├── catalog.js        # catalogue fusionné : chapitres 9 à 13 + fusion des chapitres 1 à 8
 │   │   ├── catalog-pre.js    # chapitres 1 à 8 (pages 4 à 219)
@@ -130,10 +135,10 @@ PrepReact-Exercises/
 │   ├── redux/            # Redux "classique" (atelier, posts + thunk)
 │   ├── styles/global.css
 │   ├── App.jsx
-│   ├── App.test.js       # 29 tests (Jest / Testing Library)
+│   ├── App.test.js       # 32 tests (Jest / Testing Library)
 │   ├── registry.js       # id de fiche -> composant (60 composants dédiés ; les autres leçons utilisent LessonView)
 │   └── index.js
-├── docs/PDF-INDEX.md
+├── docs/PDF-INDEX.md, docs/DESIGN.md
 ├── package.json
 ├── README.md
 └── START.bat
@@ -147,6 +152,9 @@ PrepReact-Exercises/
 - **@reduxjs/toolkit 1.9.7** : chapitre 13 (createSlice, configureStore,
   createAsyncThunk).
 - **axios 1.7.7** : consommation d'API dans les chapitres 8, 9 et 13.
+- **@fontsource-variable** (Fraunces, Instrument Sans, JetBrains Mono) : polices
+  auto-hébergées, sans requête vers un CDN externe ; seuls les sous-ensembles latins
+  nécessaires sont téléchargés par le navigateur.
 - **react-scripts 5.0.1** (Create React App) : démarrage, build et tests. Vite n'est pas
   utilisé, conformément à la demande.
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PageHeader from "./PageHeader";
 import LessonView from "./LessonView";
 import CodeBlock from "./CodeBlock";
@@ -10,7 +10,6 @@ import { snippets } from "../data/snippets";
 
 export default function ItemPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const item = itemById[id];
 
   useEffect(() => {
@@ -29,7 +28,7 @@ export default function ItemPage() {
 
   return (
     <main className="page item-page">
-      <PageHeader item={item} onBack={() => navigate("/")} />
+      <PageHeader item={item} position={index + 1} total={allItems.length} />
 
       <div className="item-body">
         {item.type === "lesson" && item.note && (
@@ -79,11 +78,6 @@ export default function ItemPage() {
         </div>
       </nav>
 
-      <div className="item-page__bottom">
-        <Link className="btn btn--back" to="/">
-          ← Retour à l'accueil
-        </Link>
-      </div>
     </main>
   );
 }

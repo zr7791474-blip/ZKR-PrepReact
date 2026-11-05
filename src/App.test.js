@@ -213,6 +213,13 @@ test("les liens de l'exemple de routage changent de page", () => {
   ).toBeInTheDocument();
 });
 
+test("la route dediee /cours-pdf affiche le lecteur du PDF", () => {
+  renderAt("/cours-pdf");
+
+  expect(screen.getByTitle(/Manuel du cours OFPPT M204/i)).toBeInTheDocument();
+  expect(screen.getByText(/visualiseur natif/i)).toBeInTheDocument();
+});
+
 /* ---------- Pages 4 a 219 ---------- */
 
 test("l'exemple de liste JSX affiche cinq elements et applique la couleur", () => {
@@ -445,5 +452,57 @@ test("l'exemple Axios fonctionnel charge les utilisateurs", async () => {
   expect(await screen.findByText(/Leanne Bret/)).toBeInTheDocument();
   expect(axios.get).toHaveBeenCalledWith(
     "https://jsonplaceholder.typicode.com/users"
+  );
+});
+
+test("la regle des pages filtre la liste par chapitre puis se reinitialise", () => {
+  renderAt("/");
+
+  const segments = screen.getAllByRole("button", { name: /^Chapitre \d+,/ });
+  expect(segments).toHaveLength(13);
+
+  fireEvent.click(screen.getByRole("button", { name: /^Chapitre 9,/ }));
+  expect(screen.getByRole("button", { name: /^Chapitre 9,/ })).toHaveAttribute(
+    "aria-pressed",
+    "true"
+  );
+  expect(screen.getByRole("status")).toHaveTextContent(/chapitre 9 \(p\. 220 - 224\)/i);
+  expect(
+    screen.queryByRole("heading", { name: /concepts de base du web front-end/i })
+  ).not.toBeInTheDocument();
+
+  // Un second clic sur le meme segment retire le filtre.
+  fireEvent.click(screen.getByRole("button", { name: /^Chapitre 9,/ }));
+  expect(
+    screen.getByRole("heading", { name: /concepts de base du web front-end/i })
+  ).toBeInTheDocument();
+});
+
+test("une fiche affiche sa position dans le catalogue et dans le cours", () => {
+  renderAt("/fiche/ex02-compteur");
+
+  const index = allItems.findIndex((item) => item.id === "ex02-compteur");
+  expect(
+    screen.getByText(`Fiche ${index + 1} / ${allItems.length}`)
+  ).toBeInTheDocument();
+  expect(screen.getByRole("img", { name: /page 235 sur 322, chapitre 10/i })).toBeInTheDocument();
+});
+
+test("les fleches du clavier changent d'onglet code / resultat", () => {
+  renderAt("/fiche/ex02-compteur");
+
+  const split = screen.getByRole("tab", { name: "Côte à côte" });
+  expect(split).toHaveAttribute("aria-selected", "true");
+
+  fireEvent.keyDown(split, { key: "ArrowRight" });
+  expect(screen.getByRole("tab", { name: "Voir le code" })).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
+
+  fireEvent.keyDown(screen.getByRole("tab", { name: "Voir le code" }), { key: "ArrowRight" });
+  expect(screen.getByRole("tab", { name: /Voir le r.sultat/i })).toHaveAttribute(
+    "aria-selected",
+    "true"
   );
 });
